@@ -1,0 +1,36 @@
+name: Gacha Engine CI
+
+on:
+  push:
+    paths:
+      - 'services/gacha-engine/**'
+      - '.github/workflows/gacha-engine.yml'
+    branches: [main]
+  pull_request:
+    paths:
+      - 'services/gacha-engine/**'
+      - '.github/workflows/gacha-engine.yml'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: services/gacha-engine
+    steps:
+      - uses: actions/checkout@v4
+      - name: Use Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Install dependencies
+        run: npm install
+      - name: Build (noop)
+        run: echo "No build step for Express"
+      - name: Deploy to Fly.io
+        if: github.ref == 'refs/heads/main'
+        uses: superfly/flyctl-actions@1.4
+        with:
+          args: "deploy --remote-only"
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }} 
