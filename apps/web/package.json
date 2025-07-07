@@ -19,6 +19,8 @@
     "typescript": "5.4.5"
   },
   "devDependencies": {
+    "@types/node": "^24.0.10",
+    "@types/react": "^19.1.8",
     "autoprefixer": "^10.4.21",
     "eslint": "^8.56.0",
     "prettier": "^3.2.5"
